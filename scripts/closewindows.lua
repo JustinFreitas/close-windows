@@ -18,7 +18,10 @@ function onInit()
         onWindowOpened_Original = Interface.onWindowOpened;
         Interface.onWindowOpened = onWindowOpened;
         -- I couldn't get FGC sidebar icon to look 100% matching, so let's use the text button at the bottom instead.
-        DesktopManager.registerDockShortcut2("button_cw", "button_cw_down", "sidebar_tooltip_closewindows", "closewindows", "closewindows", true, false);
+        DesktopManager.registerDockShortcut2("closewindows", "closewindows", "sidebar_tooltip_closewindows", "closewindows", "closewindows", true, false);
+        if MenuManager ~= nil and MenuManager.addMenuItem ~= nil then
+            MenuManager.addMenuItem("closewindows", "closewindows", "sidebar_tooltip_closewindows", "Close Windows", false);
+        end
     else
         Interface.addKeyedEventHandler("onWindowOpened", "", onWindowOpened);
     end
@@ -37,11 +40,14 @@ function onTabletopInit()
     if not IS_FGC then
         local tButton = {
             sIcon = "sidebar_icon_close",
-            tooltipres = "option_header_closewindows",
+            tooltipres = "library_recordtype_label_closewindows",
             class = "closewindows",
         };
 
         DesktopManager.registerSidebarToolButton(tButton);
+        if MenuManager ~= nil and MenuManager.menusWindow then
+            MenuManager.menusWindow.createMenuSelections();
+        end
     end
 end
 
