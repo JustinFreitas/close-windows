@@ -4,7 +4,7 @@
 	<properties>
 		<name>Feature: Close Windows</name>
 		<version>1.0</version>
-		<loadorder>9989</loadorder>
+		<loadorder>8888</loadorder>
 		<author>Justin Freitas</author>
 		<description>Closes windows that were opened.</description>
 	</properties>
@@ -12,8 +12,6 @@
 	<base>
 		<script name="CloseWindows" file="scripts/closewindows.lua" />
 		<icon name="close_icon" file="graphics/icons/close_icon.png" />
-        <icon name="button_cw" file="graphics/sidebar/button_cw.png" />
-        <icon name="button_cw_down" file="graphics/sidebar/button_cw_down.png" />
         <icon name="sidebar_icon_close" file="graphics/sidebar/sidebar_icon_close.png" />
 
 		<includefile source="campaign/closewindows.xml" />
