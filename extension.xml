@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <root version="3.3" release="8.1|CoreRPG:4.1">
-    <announcement text="Close Windows v1.0 FGC/FGU\r2023 Justin Freitas, 12/25/23" font="emotefont" icon="close_icon" />
+    <announcement text="Close Windows v1.0.1 FGC/FGU\r2024 Justin Freitas, 2/4/24" font="emotefont" icon="close_icon" />
 	<properties>
 		<name>Feature: Close Windows</name>
-		<version>1.0</version>
-		<loadorder>8888</loadorder>
+		<version>1.0.1</version>
+		<loadorder>1400</loadorder>
 		<author>Justin Freitas</author>
 		<description>Closes windows that were opened.</description>
 	</properties>
