@@ -6,10 +6,12 @@ IS_FGC = false;
 OFF = "off";
 ON = "on";
 local onWindowOpened_Original;
+local onWindowClosed_Original;
 local openWindowList = {};
 
 function onInit()
 	local option_header = "option_header_closewindows";
+	-- option_val_off, option_val_on, and option_entry_cycler are CoreRPG built-in strings (reused, not defined by this extension).
 	local option_val_off = "option_val_off";
 	local option_val_on = "option_val_on";
 	local option_entry_cycler = "option_entry_cycler";
@@ -18,6 +20,8 @@ function onInit()
     if IS_FGC then
         onWindowOpened_Original = Interface.onWindowOpened;
         Interface.onWindowOpened = onWindowOpened;
+        onWindowClosed_Original = Interface.onWindowClosed;
+        Interface.onWindowClosed = onWindowClosed;
         -- I couldn't get FGC sidebar icon to look 100% matching, so let's use the text button at the bottom instead.
         DesktopManager.registerDockShortcut2("closewindows", "closewindows", "sidebar_tooltip_closeall", "closewindows", "closewindows", true, false);
         if MenuManager ~= nil and MenuManager.addMenuItem ~= nil then
@@ -25,6 +29,7 @@ function onInit()
         end
     else
         Interface.addKeyedEventHandler("onWindowOpened", "", onWindowOpened);
+        Interface.addKeyedEventHandler("onWindowClosed", "", onWindowClosed);
     end
 
     OptionsManager.registerOption2(CLOSEWINDOWS_KEEP_CT_OPEN, true, option_header, "option_label_CLOSEWINDOWS_KEEP_CT_OPEN", option_entry_cycler,
@@ -124,11 +129,12 @@ function keepTimerOpen(t, i)
 end
 
 function onWindowOpened(window)
-    if window == nil then return end
-
-    if IS_FGC and onWindowOpened_Original ~= nil then
+    -- On FGC we replaced Interface.onWindowOpened, so chain to the original first.
+    if onWindowOpened_Original ~= nil then
         onWindowOpened_Original(window);
     end
+
+    if window == nil then return end
 
     local sWindowClass = window.getClass();
     if type(window) == "windowinstance"
@@ -138,4 +144,17 @@ function onWindowOpened(window)
         and sWindowClass ~= "manualrolls" then
         table.insert(openWindowList, window);
     end
+end
+
+function onWindowClosed(window)
+    -- On FGC we replaced Interface.onWindowClosed, so chain to the original first.
+    if onWindowClosed_Original ~= nil then
+        onWindowClosed_Original(window);
+    end
+
+    if window == nil then return end
+
+    -- Remove the closed window from the tracking list so it doesn't grow
+    -- unbounded and so we never call close() on a stale/dead handle.
+    arrayRemove(openWindowList, function(t, i) return t[i] ~= window; end);
 end
