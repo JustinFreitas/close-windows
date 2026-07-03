@@ -2,3 +2,4 @@ build-windows/out/CloseWindows.ext
 build-windows/out/CloseWindows.zip
 scripts/.luacheckrc
 scripts/luacheck.exe
+node_modules/
