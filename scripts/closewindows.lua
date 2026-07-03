@@ -16,21 +16,8 @@ function onInit()
 	local option_val_on = "option_val_on";
 	local option_entry_cycler = "option_entry_cycler";
 
-	IS_FGC = checkFGC();
-    if IS_FGC then
-        onWindowOpened_Original = Interface.onWindowOpened;
-        Interface.onWindowOpened = onWindowOpened;
-        onWindowClosed_Original = Interface.onWindowClosed;
-        Interface.onWindowClosed = onWindowClosed;
-        -- I couldn't get FGC sidebar icon to look 100% matching, so let's use the text button at the bottom instead.
-        DesktopManager.registerDockShortcut2("closewindows", "closewindows", "sidebar_tooltip_closeall", "closewindows", "closewindows", true, false);
-        if MenuManager ~= nil and MenuManager.addMenuItem ~= nil then
-            MenuManager.addMenuItem("closewindows", "closewindows", "library_recordtype_label_closewindows", Interface.getString("library_recordtype_label_closewindows"), false);
-        end
-    else
-        Interface.addKeyedEventHandler("onWindowOpened", "", onWindowOpened);
-        Interface.addKeyedEventHandler("onWindowClosed", "", onWindowClosed);
-    end
+    Interface.addKeyedEventHandler("onWindowOpened", "", onWindowOpened);
+    Interface.addKeyedEventHandler("onWindowClosed", "", onWindowClosed);
 
     OptionsManager.registerOption2(CLOSEWINDOWS_KEEP_CT_OPEN, true, option_header, "option_label_CLOSEWINDOWS_KEEP_CT_OPEN", option_entry_cycler,
     { labels = option_val_on, values = ON, baselabel = option_val_off, baseval = OFF, default = OFF });
@@ -45,17 +32,15 @@ function onInit()
 end
 
 function onTabletopInit()
-    if not IS_FGC then
-        local tButton = {
-            sIcon = "sidebar_icon_close",
-            tooltipres = "library_recordtype_label_closewindows",
-            class = "closewindows",
-        };
+    local tButton = {
+        sIcon = "sidebar_icon_close",
+        tooltipres = "library_recordtype_label_closewindows",
+        class = "closewindows",
+    };
 
-        DesktopManager.registerSidebarToolButton(tButton);
-        if MenuManager ~= nil and MenuManager.menusWindow then
-            MenuManager.menusWindow.createMenuSelections();
-        end
+    DesktopManager.registerSidebarToolButton(tButton);
+    if MenuManager ~= nil and MenuManager.menusWindow then
+        MenuManager.menusWindow.createMenuSelections();
     end
 end
 
@@ -79,12 +64,7 @@ function arrayRemove(t, fnKeep)
     return t;
 end
 
-function checkFGC()
-	local nMajor, nMinor, nPatch = Interface.getVersion()
-	if nMajor <= 2 then return true end
-	if nMajor == 3 and nMinor <= 2 then return true end
-	return nMajor == 3 and nMinor == 3 and nPatch <= 15;
-end
+
 
 function closeWindow(t, i)
     if t ~= nil
@@ -129,11 +109,6 @@ function keepTimerOpen(t, i)
 end
 
 function onWindowOpened(window)
-    -- On FGC we replaced Interface.onWindowOpened, so chain to the original first.
-    if onWindowOpened_Original ~= nil then
-        onWindowOpened_Original(window);
-    end
-
     if window == nil then return end
 
     local sWindowClass = window.getClass();
@@ -147,11 +122,6 @@ function onWindowOpened(window)
 end
 
 function onWindowClosed(window)
-    -- On FGC we replaced Interface.onWindowClosed, so chain to the original first.
-    if onWindowClosed_Original ~= nil then
-        onWindowClosed_Original(window);
-    end
-
     if window == nil then return end
 
     -- Remove the closed window from the tracking list so it doesn't grow

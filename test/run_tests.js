@@ -100,13 +100,7 @@ async function runTests() {
         }
     }
 
-    // --- TEST 1: checkFGC (FGU version returns false) ---
-    await lua.doString("Interface.setVersion(4, 1, 0)");
-    await runAssert("checkFGC() on FGU (4.1.0)", false, "return checkFGC()");
 
-    // --- TEST 2: checkFGC (FGC version returns true) ---
-    await lua.doString("Interface.setVersion(3, 3, 10)");
-    await runAssert("checkFGC() on FGC (3.3.10)", true, "return checkFGC()");
 
     // --- TEST 3: keepCtOpen options checks ---
     await lua.doString(`
