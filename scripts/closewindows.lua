@@ -2,7 +2,7 @@ CLOSEWINDOWS_KEEP_CT_OPEN = "CLOSEWINDOWS_KEEP_CT_OPEN";
 CLOSEWINDOWS_KEEP_IMAGES_OPEN = "CLOSEWINDOWS_KEEP_IMAGES_OPEN";
 CLOSEWINDOWS_KEEP_PS_OPEN = "CLOSEWINDOWS_KEEP_PS_OPEN";
 CLOSEWINDOWS_KEEP_TIMER_OPEN = "CLOSEWINDOWS_KEEP_TIMER_OPEN";
-IS_FGC = false;
+IS_FGC = true;
 OFF = "off";
 ON = "on";
 local onWindowOpened_Original;
@@ -16,20 +16,14 @@ function onInit()
 	local option_val_on = "option_val_on";
 	local option_entry_cycler = "option_entry_cycler";
 
-	IS_FGC = checkFGC();
-    if IS_FGC then
-        onWindowOpened_Original = Interface.onWindowOpened;
-        Interface.onWindowOpened = onWindowOpened;
-        onWindowClosed_Original = Interface.onWindowClosed;
-        Interface.onWindowClosed = onWindowClosed;
-        -- I couldn't get FGC sidebar icon to look 100% matching, so let's use the text button at the bottom instead.
-        DesktopManager.registerDockShortcut2("closewindows", "closewindows", "sidebar_tooltip_closeall", "closewindows", "closewindows", true, false);
-        if MenuManager ~= nil and MenuManager.addMenuItem ~= nil then
-            MenuManager.addMenuItem("closewindows", "closewindows", "library_recordtype_label_closewindows", Interface.getString("library_recordtype_label_closewindows"), false);
-        end
-    else
-        Interface.addKeyedEventHandler("onWindowOpened", "", onWindowOpened);
-        Interface.addKeyedEventHandler("onWindowClosed", "", onWindowClosed);
+    onWindowOpened_Original = Interface.onWindowOpened;
+    Interface.onWindowOpened = onWindowOpened;
+    onWindowClosed_Original = Interface.onWindowClosed;
+    Interface.onWindowClosed = onWindowClosed;
+    -- I couldn't get FGC sidebar icon to look 100% matching, so let's use the text button at the bottom instead.
+    DesktopManager.registerDockShortcut2("closewindows", "closewindows", "sidebar_tooltip_closeall", "closewindows", "closewindows", true, false);
+    if MenuManager ~= nil and MenuManager.addMenuItem ~= nil then
+        MenuManager.addMenuItem("closewindows", "closewindows", "library_recordtype_label_closewindows", Interface.getString("library_recordtype_label_closewindows"), false);
     end
 
     OptionsManager.registerOption2(CLOSEWINDOWS_KEEP_CT_OPEN, true, option_header, "option_label_CLOSEWINDOWS_KEEP_CT_OPEN", option_entry_cycler,
@@ -42,21 +36,6 @@ function onInit()
     { labels = option_val_on, values = ON, baselabel = option_val_off, baseval = OFF, default = OFF });
     Comm.registerSlashHandler("cw", closeWindows);
     Comm.registerSlashHandler("closewindows", closeWindows);
-end
-
-function onTabletopInit()
-    if not IS_FGC then
-        local tButton = {
-            sIcon = "sidebar_icon_close",
-            tooltipres = "library_recordtype_label_closewindows",
-            class = "closewindows",
-        };
-
-        DesktopManager.registerSidebarToolButton(tButton);
-        if MenuManager ~= nil and MenuManager.menusWindow then
-            MenuManager.menusWindow.createMenuSelections();
-        end
-    end
 end
 
 -- https://stackoverflow.com/questions/12394841/safely-remove-items-from-an-array-table-while-iterating
@@ -79,12 +58,7 @@ function arrayRemove(t, fnKeep)
     return t;
 end
 
-function checkFGC()
-	local nMajor, nMinor, nPatch = Interface.getVersion()
-	if nMajor <= 2 then return true end
-	if nMajor == 3 and nMinor <= 2 then return true end
-	return nMajor == 3 and nMinor == 3 and nPatch <= 15;
-end
+
 
 function closeWindow(t, i)
     if t ~= nil
