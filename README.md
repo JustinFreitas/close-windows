@@ -1,6 +1,6 @@
 # Close Windows
 
-A Fantasy Grounds extension (FGC & FGU) that closes all the windows you've opened, optionally leaving some of the common windows open.
+A Fantasy Grounds extension (FGC/FGU) that closes all the windows you've opened, optionally leaving some of the common windows open.
 
 ## Features
 
@@ -34,16 +34,25 @@ Each of the following can be toggled on/off under **Options → Close Windows** 
 
 All options default to **off** (everything closes).
 
-## Compatibility
+## Compatibility & Architecture
 
-- Fantasy Grounds Classic (FGC) and Fantasy Grounds Unity (FGU)
-- CoreRPG and rulesets built on it
-- Detects FGC vs. FGU automatically and wires up the appropriate UI button and window hooks.
+- **Unified Codebase**: Single `.ext` package works on both Fantasy Grounds Unity (FGU) and Fantasy Grounds Classic (FGC).
+- **CoreRPG & Derived Rulesets**: Full support for 2E, 3.5E, 4E, 5E, PFRPG, PFRPG2, SFRPG, SavageWorlds, OSE2, etc.
+- **FGU Native Engine**: Uses native `Interface.getWindows()` for zero-overhead, instant window queries with no persistent memory tracking or stale handles.
+- **Tabletop Safety**: Automatically preserves desktop panels (chat window, dice tower, modifier stack, sidebar, background map panel) and modal dialogs (`dialog_okcancel`, `prompt`, `colorpicker`).
+- **FGC Fallback**: Maintains backward compatibility on Classic using `openWindowList` wrapped with `pcall` dead-userdata protection.
 
 ## Changelog
 
+### v1.3 — 9/14/26
+- **Unified Architecture**: Merged FGU and FGC into a single cross-compatible codebase with automatic runtime feature detection (`Interface.getWindows`).
+- **FGU Native Window Query**: Leverages `Interface.getWindows()` in Unity, completely eliminating window tracking lists, memory leaks, and stale object references.
+- **Panel & Dialog Protection**: Added `w.isPanel()` protection to prevent closing tabletop panels or background maps, and protected confirmation prompts/dialogs (`dialog_okcancel`, `prompt`, `colorpicker`, `manualrolls`).
+- **FGC Hardening**: Wrapped FGC fallback tracking in `pcall` to safely discard dead userdata without throwing script errors if windows were closed manually.
+- **Automated Test Suite**: Added comprehensive wasmoon unit tests covering both FGU and FGC execution modes.
+
 ### v1.2 — 6/9/26
-- Track window closes so the internal open-window list no longer grows unbounded or retains stale handles (fixes closing being applied to already-closed/reopened windows).
+- Track window closes on FGC so the internal open-window list no longer grows unbounded or retains stale handles.
 - Chain to the original FGC window handlers even for nil windows.
 - Minor cleanup and clarifying comments.
 

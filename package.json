@@ -1,20 +1,20 @@
 {
   "name": "close-windows",
-  "version": "1.0.0",
-  "description": "A Fantasy Grounds extension (FGC & FGU) that closes all the windows you've opened, optionally leaving some of the common windows open.",
+  "version": "1.3.0",
+  "description": "A Fantasy Grounds extension (FGC/FGU) that closes all the windows you've opened, optionally leaving some of the common windows open.",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test/run_tests.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JustinFreitas/close-windows.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Justin Freitas",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
