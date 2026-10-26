@@ -1,27 +1,30 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <root version="3.3">
-    <announcement text="Close Windows v1.3 FGC/FGU\r2023-2026 Justin Freitas" font="emotefont" icon="close_icon" />
+	<announcement text="Close Windows v1.4 FGC/FGU\r2023-2026 Justin Freitas" font="emotefont" icon="close_icon" />
 	<properties>
 		<name>Feature: Close Windows</name>
-		<version>1.3</version>
+		<version>1.4</version>
 		<loadorder>1400</loadorder>
 		<author>Justin Freitas</author>
-		<description>Closes open windows while optionally preserving Combat Tracker, Party Sheet, Images, and Timer.</description>
+		<description>Closes open windows while optionally preserving Character Sheets, Combat Tracker, Party Sheet, Images, Reference Manuals, Sound Context, and Timer.</description>
 	</properties>
 
 	<base>
 		<script name="CloseWindows" file="scripts/closewindows.lua" />
 		<icon name="close_icon" file="graphics/icons/close_icon.png" />
-        <icon name="sidebar_icon_close" file="graphics/sidebar/sidebar_icon_close.png" />
+		<icon name="sidebar_icon_close" file="graphics/sidebar/sidebar_icon_close.png" />
 
 		<includefile source="campaign/closewindows.xml" />
 
-        <string name="sidebar_tooltip_closeall">Close All</string>
-        <string name="library_recordtype_label_closewindows">Close Windows</string>
+		<string name="sidebar_tooltip_closeall">Close All</string>
+		<string name="library_recordtype_label_closewindows">Close Windows</string>
 		<string name="option_header_closewindows">Close Windows</string>
+		<string name="option_label_CLOSEWINDOWS_KEEP_CS_OPEN">Keep Char Sheets Open</string>
 		<string name="option_label_CLOSEWINDOWS_KEEP_CT_OPEN">Keep CT Open</string>
 		<string name="option_label_CLOSEWINDOWS_KEEP_IMAGES_OPEN">Keep Images Open</string>
 		<string name="option_label_CLOSEWINDOWS_KEEP_PS_OPEN">Keep PS Open</string>
+		<string name="option_label_CLOSEWINDOWS_KEEP_REF_OPEN">Keep Books Open</string>
+		<string name="option_label_CLOSEWINDOWS_KEEP_SOUND_OPEN">Keep Sound Open</string>
 		<string name="option_label_CLOSEWINDOWS_KEEP_TIMER_OPEN">Keep Timer Open</string>
 	</base>
 </root>

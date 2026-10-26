@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <root>
   <windowclass name="closewindows">
+    <placement>
+      <nosave />
+    </placement>
     <script>
       function onInit()
         self.close();

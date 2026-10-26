@@ -1,6 +1,6 @@
 {
   "name": "close-windows",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "A Fantasy Grounds extension (FGC/FGU) that closes all the windows you've opened, optionally leaving some of the common windows open.",
   "main": "index.js",
   "directories": {

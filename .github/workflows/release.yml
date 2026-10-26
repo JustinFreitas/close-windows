@@ -51,7 +51,7 @@ jobs:
       - name: Create Extension Package
         run: |
           mkdir -p out
-          zip -r out/CloseWindows.ext extension.xml campaign graphics scripts
+          zip -r out/CloseWindows.ext extension.xml campaign graphics scripts -x "*/.*" "scripts/luacheck.exe"
           echo "Extension successfully packaged."
 
       - name: Generate Release Notes
